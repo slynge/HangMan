@@ -1,21 +1,19 @@
-package gui;
+package gui.components;
 
-import javafx.scene.Node;
+import controller.Controller;
 import javafx.scene.control.Button;
-import javafx.scene.control.Label;
 import javafx.scene.layout.GridPane;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
-import models.WordGenerator;
+import models.Game;
 
-import static models.Game.updateGame;
 
 public class KeyboardUI extends GridPane {
-    private final WordGenerator wordGenerator;
+    private final Game game;
     private final DisplayWord displayWord;
     private final HangManDrawing hangManDrawing;
-    public KeyboardUI(WordGenerator wordGenerator, DisplayWord displayWord, HangManDrawing hangManDrawing) {
-        this.wordGenerator = wordGenerator;
+    public KeyboardUI(Game game, DisplayWord displayWord, HangManDrawing hangManDrawing) {
+        this.game = game;
         this.displayWord = displayWord;
         this.hangManDrawing = hangManDrawing;
         setLayout();
@@ -35,9 +33,9 @@ public class KeyboardUI extends GridPane {
         int rowNr = 1;
         int colNr = 1;
         for (String letter : alphabet) {
-            Button button = createButton(letter, 85, 85, 35);
-            button.setOnAction(event -> updateGame(wordGenerator, displayWord, hangManDrawing, button));
-            add(button, colNr, rowNr);
+            Button letterButton = createButton(letter, 85, 85, 35);
+            letterButton.setOnAction(event -> updateMaskedWord(game, displayWord, hangManDrawing, letterButton));
+            add(letterButton, colNr, rowNr);
             if(colNr % 10 == 0) {
                 colNr = 1;
                 rowNr++;
@@ -46,7 +44,27 @@ public class KeyboardUI extends GridPane {
                 colNr++;
             }
         }
-        add(createButton(" New\nGame", 85, 85, 20), colNr, rowNr);
+        Button newGameButton = createButton(" New\nGame", 85, 85, 20);
+        add(newGameButton, colNr, rowNr);
+        newGameButton.setOnAction(event -> restartGame());
+    }
+
+    private void restartGame() {
+        Controller.restartGame(game);
+        displayWord.setMaskedWord();
+        hangManDrawing.clear();
+    }
+
+    private void updateMaskedWord(Game game, DisplayWord displayWord, HangManDrawing hangManDrawing, Button button) {
+        char chosenLetter = button.getText().charAt(0);
+        if(Controller.chooseLetter(game, chosenLetter)) {
+            displayWord.setMaskedWord();
+        }
+        else {
+            hangManDrawing.draw();
+
+        }
+        button.setDisable(true);
     }
 
     private Button createButton(String text, int widthOfButton, int heightOfButton, int textSize) {

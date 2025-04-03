@@ -1,17 +1,17 @@
 package gui;
 
+import controller.Controller;
+import gui.components.DisplayWord;
+import gui.components.HangManDrawing;
+import gui.components.KeyboardUI;
 import javafx.application.Application;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
-import models.WordGenerator;
+import models.Game;
 
 public class StartWindow extends Application {
-    private WordGenerator wordGenerator;
-    private HangManDrawing hangManDrawing;
-    private DisplayWord displayWord;
-    private KeyboardUI keyboardUI;
 
     @Override
     public void start(Stage primaryStage) throws Exception {
@@ -25,10 +25,10 @@ public class StartWindow extends Application {
     }
 
     private void initContent(BorderPane borderPane) {
-        wordGenerator = new WordGenerator("resources/da_nouns.txt");
-        hangManDrawing = new HangManDrawing(250, 250);
-        displayWord = new DisplayWord(wordGenerator,20);
-        keyboardUI = new KeyboardUI(wordGenerator, displayWord, hangManDrawing);
+        Game game = Controller.createGame();
+        HangManDrawing hangManDrawing = new HangManDrawing(game, 250, 250);
+        DisplayWord displayWord = new DisplayWord(game, 20);
+        KeyboardUI keyboardUI = new KeyboardUI(game, displayWord, hangManDrawing);
 
         borderPane.setLeft(hangManDrawing);
         borderPane.setBottom(keyboardUI);

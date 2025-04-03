@@ -1,4 +1,4 @@
-package gui;
+package gui.utility;
 
 public enum Part {
     LEFT,

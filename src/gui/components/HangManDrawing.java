@@ -1,17 +1,21 @@
-package gui;
+package gui.components;
 
+import gui.utility.Emotion;
+import gui.utility.Part;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.shape.ArcType;
 import models.Game;
 
 public class HangManDrawing extends Canvas {
+    private final Game game;
     private final GraphicsContext gc;
     private final int lineWidth = 6;
     private final Runnable[] drawActions;
 
-    public HangManDrawing(int width, int height) {
+    public HangManDrawing(Game game, int width, int height) {
         super(width, height);
+        this.game = game;
         gc = getGraphicsContext2D();
         gc.setLineWidth(lineWidth);
         this.drawActions = new Runnable[] {
@@ -36,12 +40,11 @@ public class HangManDrawing extends Canvas {
         gc.strokeLine(66, 75, 95, 46);
     }
 
-    public void draw() {
-        int numberOfLives = Game.getNumberOfLives();
+    protected void draw() {
+        int numberOfLives = game.getNumberOfLives();
         if(numberOfLives >= 0 && numberOfLives <= 9) {
             drawActions[numberOfLives].run();
         }
-
     }
 
     private void drawRope() {
@@ -99,5 +102,10 @@ public class HangManDrawing extends Canvas {
         else {
             gc.strokeLine(160, 160, 180, 189);
         }
+    }
+
+    protected void clear() {
+        gc.clearRect(0, 0, gc.getCanvas().getWidth(), gc.getCanvas().getHeight());
+        drawGallow();
     }
 }
