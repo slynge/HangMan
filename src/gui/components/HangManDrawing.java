@@ -45,6 +45,10 @@ public class HangManDrawing extends Canvas {
         if(numberOfLives >= 0 && numberOfLives <= 9) {
             drawActions[numberOfLives].run();
         }
+        if(numberOfLives == 0) {
+            clearSmile();
+            drawSmile(Emotion.SAD);
+        }
     }
 
     private void drawRope() {
@@ -79,7 +83,10 @@ public class HangManDrawing extends Canvas {
             gc.strokeArc(152.5, 87.5, 15, 15, 0, 180, ArcType.OPEN);
         }
         gc.setLineWidth(lineWidth);
+    }
 
+    private void clearSmile() {
+        gc.clearRect(151, 88, 18, 11);
     }
 
     private void drawBody() {
