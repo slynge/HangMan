@@ -1,15 +1,12 @@
-package gui;
+package gui.components;
 
-import controller.Controller;
-import gui.components.DisplayWord;
-import gui.components.HangManDrawing;
-import gui.components.KeyboardUI;
+import application.controller.Controller;
 import javafx.application.Application;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
-import models.Game;
+import application.models.Game;
 
 public class StartWindow extends Application {
 

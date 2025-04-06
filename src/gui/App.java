@@ -1,5 +1,6 @@
 package gui;
 
+import gui.components.StartWindow;
 import javafx.application.Application;
 import storage.Storage;
 

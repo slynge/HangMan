@@ -5,11 +5,11 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.HBox;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
-import models.Game;
+import application.models.Game;
 
 public class DisplayWord extends HBox {
     private final Game game;
-    public DisplayWord(Game game, double spacing) {
+    protected DisplayWord(Game game, double spacing) {
         super(spacing);
         this.game = game;
         setLayout();
@@ -26,7 +26,6 @@ public class DisplayWord extends HBox {
         for (char letter : maskedWord) {
             Label label = new Label(String.valueOf(letter));
             label.setFont(Font.font("Arial", FontWeight.BOLD, 40));
-
             getChildren().add(label);
         }
     }

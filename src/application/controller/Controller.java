@@ -1,6 +1,6 @@
-package controller;
+package application.controller;
 
-import models.Game;
+import application.models.Game;
 
 public class Controller {
     public static Game createGame() {

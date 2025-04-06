@@ -1,27 +1,24 @@
 package gui.components;
 
-import controller.Controller;
+import application.controller.Controller;
+import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.layout.GridPane;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
-import models.Game;
+import application.models.Game;
+import application.models.GameState;
 
 
 public class KeyboardUI extends GridPane {
     private final Game game;
     private final DisplayWord displayWord;
     private final HangManDrawing hangManDrawing;
-    public KeyboardUI(Game game, DisplayWord displayWord, HangManDrawing hangManDrawing) {
+    protected KeyboardUI(Game game, DisplayWord displayWord, HangManDrawing hangManDrawing) {
         this.game = game;
         this.displayWord = displayWord;
         this.hangManDrawing = hangManDrawing;
-        setLayout();
         setKeyboard();
-    }
-
-    private void setLayout() {
-        setGridLinesVisible(true);
     }
 
     private void setKeyboard() {
@@ -53,6 +50,7 @@ public class KeyboardUI extends GridPane {
         Controller.restartGame(game);
         displayWord.setMaskedWord();
         hangManDrawing.clear();
+        setButtons(true);
     }
 
     private void updateMaskedWord(Game game, DisplayWord displayWord, HangManDrawing hangManDrawing, Button button) {
@@ -62,9 +60,19 @@ public class KeyboardUI extends GridPane {
         }
         else {
             hangManDrawing.draw();
-
+            if(game.getGameState() == GameState.LOST) {
+                setButtons(false);
+            }
         }
         button.setDisable(true);
+    }
+
+    private void setButtons(boolean val) {
+        for (Node child : getChildren()) {
+            if(child instanceof Button button && !button.getText().contains("New\nGame")) {
+                button.setDisable(!val);
+            }
+        }
     }
 
     private Button createButton(String text, int widthOfButton, int heightOfButton, int textSize) {

@@ -5,7 +5,8 @@ import gui.utility.Part;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.shape.ArcType;
-import models.Game;
+import application.models.Game;
+import application.models.GameState;
 
 public class HangManDrawing extends Canvas {
     private final Game game;
@@ -13,13 +14,13 @@ public class HangManDrawing extends Canvas {
     private final int lineWidth = 6;
     private final Runnable[] drawActions;
 
-    public HangManDrawing(Game game, int width, int height) {
+    protected HangManDrawing(Game game, int width, int height) {
         super(width, height);
         this.game = game;
         gc = getGraphicsContext2D();
         gc.setLineWidth(lineWidth);
         this.drawActions = new Runnable[] {
-                this::drawRope,
+                null,
                 () -> drawLeg(Part.RIGHT),
                 () -> drawLeg(Part.LEFT),
                 () -> drawArm(Part.RIGHT),
@@ -42,12 +43,16 @@ public class HangManDrawing extends Canvas {
 
     protected void draw() {
         int numberOfLives = game.getNumberOfLives();
-        if(numberOfLives >= 0 && numberOfLives <= 9) {
+        if(game.getGameState() == GameState.ONGOING) {
             drawActions[numberOfLives].run();
         }
-        if(numberOfLives == 0) {
+        else if(game.getGameState() == GameState.LOST) {
+            drawRope();
             clearSmile();
             drawSmile(Emotion.SAD);
+        }
+        else {
+            // nothing
         }
     }
 

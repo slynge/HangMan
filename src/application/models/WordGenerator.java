@@ -1,4 +1,4 @@
-package models;
+package application.models;
 
 import storage.Storage;
 import java.util.ArrayList;
@@ -6,7 +6,7 @@ import java.util.Arrays;
 import java.util.Random;
 
 public class WordGenerator {
-    public static String getWord() {
+    protected static String getWord() {
         Random random = new Random();
         ArrayList<String> words = Storage.getWords();
         int randomIndex = Math.abs(random.nextInt()) % words.size();
