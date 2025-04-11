@@ -31,17 +31,15 @@ public class Game {
 
     public void setMaskedWord(int index, char letter) {
         maskedWord[index] = letter;
+        if(Arrays.equals(maskedWord, actualWord.toCharArray())) {
+            gameState = GameState.WON;
+        }
     }
 
     public void decreaseNumberOfLives() {
         numberOfLives--;
         if(numberOfLives == 0) {
             gameState = GameState.LOST;
-        }
-        else {
-            if(Arrays.equals(maskedWord, actualWord.toCharArray())) {
-                gameState = GameState.WON;
-            }
         }
     }
 

@@ -57,6 +57,9 @@ public class KeyboardUI extends GridPane {
         char chosenLetter = button.getText().charAt(0);
         if(Controller.chooseLetter(game, chosenLetter)) {
             displayWord.setMaskedWord();
+            if(game.getGameState() == GameState.WON) {
+                setButtons(false);
+            }
         }
         else {
             hangManDrawing.draw();
